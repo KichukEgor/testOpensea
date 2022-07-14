@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Moralis from "moralis";
-import {useOpenseaApiContext} from "../../../hooks/useOpenseaApi";
-import {api} from "../../../api/api";
+import { useOpenseaApiContext } from '../../../hooks/useOpenseaApi';
+import api from '../../../api/api';
+// import Moralis from 'moralis';
 
 const SearchWrapper = styled.section`
   width: 100%;
@@ -42,63 +42,57 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   font-size: 2.2rem;
-  background: ${props => props.disabled ? "grey" : "rgba(58, 128, 194, 1)"};
+  background: ${(props) => (props.disabled ? 'grey' : 'rgba(58, 128, 194, 1)')};
   border: 2px solid black;
   border-radius: 0 .6rem .6rem 0;
-  cursor: ${props => props.disabled ? "default" : "pointer"};
-`;
-
-const ErrorMessage = styled.p`
-  text-align: center;
-  height: 3rem;
-  padding: .6rem;
-  font-size: 2rem;
+  cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
 `;
 
 const defaultOptions = {
-    chain: "eth",
-    addresses: "",
+  chain: 'eth',
+  addresses: '',
 };
 
-const Searcher = ({ placeholder }) => {
-    const { updateItems } = useOpenseaApiContext()
+function Searcher({ placeholder }) {
+  const { updateItems } = useOpenseaApiContext();
 
-    const [requestOptions, setRequestOptions] = useState(defaultOptions)
-    const [isActive, setIsActive] = useState(false)
+  const [requestOptions, setRequestOptions] = useState(defaultOptions);
+  const [isActive, setIsActive] = useState(false);
 
-    useEffect(()=> {
-        if(requestOptions.addresses.length === 42) {
-            setIsActive(true)
-        } else {
-            setIsActive(false)
-        }},[requestOptions.addresses])
-
-    const handlerChange = (eventValue) => {
-        setRequestOptions({ ...requestOptions.addresses, addresses: eventValue })
+  useEffect(() => {
+    if (requestOptions.addresses.length === 42) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
     }
+  }, [requestOptions.addresses]);
 
-    const handleClick = async () => {
-        const tokenMetadata = await api.get(`/v1/asset/${requestOptions.addresses}/1/?include_orders=false`);
-        updateItems(tokenMetadata.collection.payment_tokens)
-        // const tokenMetadata = await Moralis.Web3API.token.getTokenMetadata(requestOptions);
-        // updateItems(tokenMetadata)
-    }
+  const handlerChange = (eventValue) => {
+    setRequestOptions({ ...requestOptions.addresses, addresses: eventValue });
+  };
 
-    return (
-        <SearchWrapper>
-            <Title>Enter address to get NFT!</Title>
-            <SearchBlock>
-                <Input
-                    type="text"
-                    onChange={(e)=>handlerChange(e.target.value)}
-                    placeholder={placeholder}
-                />
-                <Button disabled={!isActive} onClick={handleClick}>
-                    Search
-                </Button>
-            </SearchBlock>
-        </SearchWrapper>
-    );
-};
+  const handleClick = async () => {
+    const tokenMetadata = await api.get(`/v1/asset/${requestOptions.addresses}/1/?include_orders=false`);
+    updateItems(tokenMetadata.collection.payment_tokens);
+    // const tokenMetadata = await Moralis.Web3API.token.getTokenMetadata(requestOptions);
+    // updateItems(tokenMetadata)
+  };
+
+  return (
+    <SearchWrapper>
+      <Title>Enter address to get NFT!</Title>
+      <SearchBlock>
+        <Input
+          type="text"
+          onChange={(e) => handlerChange(e.target.value)}
+          placeholder={placeholder}
+        />
+        <Button disabled={!isActive} onClick={handleClick}>
+          Search
+        </Button>
+      </SearchBlock>
+    </SearchWrapper>
+  );
+}
 
 export default Searcher;

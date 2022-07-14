@@ -1,10 +1,11 @@
-import Searcher from "./common/components/searher/Searcher";
-import CardList from "./common/components/cardList/CardList";
-import { OpenseaApiProvider } from "./hooks/useOpenseaApi"
-import { MoralisProvider } from "react-moralis";
+import React from 'react';
+import { MoralisProvider } from 'react-moralis';
+import Searcher from './common/components/searher/Searcher';
+import CardList from './common/components/cardList/CardList';
+import { OpenseaApiProvider } from './hooks/useOpenseaApi';
 import './App.css';
 
-const { DAPP_URL, APPLICATION_ID} = process.env
+const { DAPP_URL, APPLICATION_ID } = process.env;
 
 function App() {
   return (
