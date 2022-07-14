@@ -1,24 +1,21 @@
-import logo from './logo.svg';
+import Searcher from "./common/components/searher/Searcher";
+import CardList from "./common/components/cardList/CardList";
+import { OpenseaApiProvider } from "./hooks/useOpenseaApi"
+import { MoralisProvider } from "react-moralis";
 import './App.css';
+
+const { DAPP_URL, APPLICATION_ID} = process.env
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MoralisProvider serverUrl={DAPP_URL} appId={APPLICATION_ID}>
+      <div className="App">
+        <OpenseaApiProvider>
+          <Searcher placeholder="Your address" />
+          <CardList />
+        </OpenseaApiProvider>
+      </div>
+    </MoralisProvider>
   );
 }
 

@@ -1,4 +1,28 @@
+@import 'common/styles/_common.css';
+
+/*universial selector example to include padding, border, and margin
+in all box sizing totals*/
+* {
+  box-sizing: border-box;
+}
+
+html {
+  /* 62.5% of 16px base font size is 10px */
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  background: rgba(0,212,255,1);
+}
+
 .App {
+  margin: 0 auto;
+  padding: 2rem;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
 }
 
